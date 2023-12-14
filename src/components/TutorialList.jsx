@@ -1,24 +1,36 @@
 import { FaEdit } from "react-icons/fa"
 import { AiFillDelete } from "react-icons/ai"
+import axios from "axios"
+import EditTutorial from "./EditTutorial"
 
-const TutorialList = () => {
-  const tutorials = [
-    {
-      id: 1,
-      title: "JS",
-      description: "JS is a programming language",
-    },
-    {
-      id: 2,
-      title: "React",
-      description: "JS library for UI design",
-    },
-    {
-      id: 3,
-      title: "Solid JS",
-      description: "JUST JS"
+const TutorialList = ({ tutorials,getTutorials }) => {
+  ///mock data
+  // const tutorials = [
+  //   {
+  //     id: 1,
+  //     title: "JS",
+  //     description: "JS is a programming language",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "React",
+  //     description: "JS library for UI design",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Solid JS",
+  //     description: "JUST JS"
+  //   }
+  // ]
+  const deleteTutorial = async(id) =>{
+    try {
+       await axios.delete(`${process.env.REACT_APP_URL}${id}/`)
+    } catch (error) {
+      console.log(error);
     }
-  ]
+    
+    
+  }
 
   return (
     <div className="container mt-4">
@@ -51,6 +63,7 @@ const TutorialList = () => {
                     size={22}
                     type="button"
                     className="text-danger "
+                    onClick={(id)=> deleteTutorial(id)}
                   />
                 </td>
               </tr>
@@ -58,6 +71,7 @@ const TutorialList = () => {
           })}
         </tbody>
       </table>
+      <EditTutorial/>
     </div>
   )
 }
