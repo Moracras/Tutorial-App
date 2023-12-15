@@ -2,9 +2,11 @@ import { FaEdit } from "react-icons/fa"
 import { AiFillDelete } from "react-icons/ai"
 import axios from "axios"
 import EditTutorial from "./EditTutorial"
+import { useState } from "react"
 
-const TutorialList = ({ tutorials,getTutorials }) => {
-  ///mock data
+const TutorialList = ({ tutorials, getTutorials }) => {
+  const [editData, setEditData] = useState("")
+  //? mock data
   // const tutorials = [
   //   {
   //     id: 1,
@@ -18,19 +20,21 @@ const TutorialList = ({ tutorials,getTutorials }) => {
   //   },
   //   {
   //     id: 3,
-  //     title: "Solid JS",
-  //     description: "JUST JS"
-  //   }
+  //     title: "Solid.JS",
+  //     description: "JS library for UI design",
+  //   },
   // ]
-  const deleteTutorial = async(id) =>{
+
+  const deleteTutorial = async (id) => {
     try {
-       await axios.delete(`${process.env.REACT_APP_URL}${id}/`)
+      await axios.delete(`${process.env.REACT_APP_URL}${id}/`)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-    
-    
+    getTutorials()
   }
+
+  console.log(editData)
 
   return (
     <div className="container mt-4">
@@ -58,12 +62,15 @@ const TutorialList = ({ tutorials,getTutorials }) => {
                     size={20}
                     type="button"
                     className="me-2 text-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#open-modal"
+                    onClick={() => setEditData(item)}
                   />
                   <AiFillDelete
                     size={22}
                     type="button"
                     className="text-danger "
-                    onClick={(id)=> deleteTutorial(id)}
+                    onClick={() => deleteTutorial(id)}
                   />
                 </td>
               </tr>
@@ -71,7 +78,7 @@ const TutorialList = ({ tutorials,getTutorials }) => {
           })}
         </tbody>
       </table>
-      <EditTutorial/>
+      <EditTutorial editData={editData} />
     </div>
   )
 }
